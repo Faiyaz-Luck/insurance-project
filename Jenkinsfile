@@ -49,14 +49,15 @@ pipeline {
 
        stage('Deploy to AWS') {
     steps {
-        withCredentials([string(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
-            sh '''
-                echo "[webservers]" > inventory
-                echo "$INVENTORY_FILE" >> inventory
-                export ANSIBLE_HOST_KEY_CHECKING=False
-                ansible-playbook -i inventory ansible-playbook.yml
-            '''
-        }
+        withCredentials([sshUserPrivateKey(credentialsId: 'ansible-ssh-key', keyFileVariable: 'SSH_KEY')]) {
+    sh '''
+        echo "[webservers]" > inventory
+        echo "$SERVER_IP ansible_user=$SERVER_USER ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/id_ed25519" >> inventory
+        export ANSIBLE_HOST_KEY_CHECKING=False
+        ansible-playbook -i inventory ansible-playbook.yml
+    '''
+}
+
     }
 }
     }
