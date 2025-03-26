@@ -51,8 +51,8 @@ pipeline {
     steps {
         withCredentials([string(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
             sh '''
-                sudo echo "$INVENTORY_FILE" > inventory
-                sudo ansible-playbook -i inventory ansible-playbook.yml
+                echo "$INVENTORY_FILE" > inventory
+                ansible-playbook -i inventory ansible-playbook.yml
             '''
         }
     }
