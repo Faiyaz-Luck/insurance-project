@@ -48,11 +48,15 @@ pipeline {
         }
 
         stage('Deploy to AWS') {
-    steps {
-        withCredentials([file(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
-            sh "ansible-playbook -i $INVENTORY_FILE ansible-playbook.yml"
-        }
-    }
+               steps {
+                withCredentials([string(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
+                    sh '''
+                        echo "$INVENTORY_FILE" > inventory
+                        ansible-playbook -i inventory ansible-playbook.yml
+                    '''
+                }
+            }
+
 }
 
     }
