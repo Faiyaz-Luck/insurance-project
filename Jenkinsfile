@@ -47,13 +47,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to AWS') {
+       stage('Deploy to AWS') {
     steps {
         withCredentials([string(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
             sh '''
                 echo "[webservers]" > inventory
                 echo "$INVENTORY_FILE" >> inventory
-                cat inventory  # Debugging step to check the file content in Jenkins logs
+                export ANSIBLE_HOST_KEY_CHECKING=False
                 ansible-playbook -i inventory ansible-playbook.yml
             '''
         }
