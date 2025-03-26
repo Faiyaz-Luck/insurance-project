@@ -1,0 +1,17 @@
+---
+- name: Deploy Spring Boot Docker container on AWS EC2
+  hosts: webservers
+  become: true
+
+  tasks:
+    - name: Stop and remove old container
+      shell: |
+        docker stop springboot-app || true
+        docker rm springboot-app || true
+
+    - name: Pull latest Docker image
+      shell: docker pull faiyazluck/springboot-app:latest
+
+    - name: Run the container
+      shell: |
+        docker run -d --name springboot-app -p 80:8080 faiyazluck/springboot-app:latest
