@@ -14,11 +14,13 @@ pipeline {
             }
         }
 
-        stage('Build & Test') {
-            steps {
-                sh './mvnw clean package -DskipTests'
-            }
-        }
+          stage('Build & Test') {
+    steps {
+        sh 'chmod +x mvnw'
+        sh './mvnw clean package -DskipTests'
+    }
+}
+
 
         stage('Build Docker Image') {
             steps {
