@@ -14,12 +14,23 @@ pipeline {
             }
         }
 
-          stage('Build & Test') {
-    steps {
-        sh 'chmod +x mvnw'
-        sh './mvnw clean package -DskipTests'
-    }
-}
+  stage('Run Tests') {
+            steps {
+                sh 'mvn test'
+            }
+        }
+
+        stage('Build with Maven') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+
+        stage('Verify JAR File') {
+            steps {
+                sh 'ls -l target/'
+            }
+        }           
 
 
         stage('Build Docker Image') {
