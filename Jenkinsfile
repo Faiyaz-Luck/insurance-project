@@ -51,7 +51,9 @@ pipeline {
     steps {
         withCredentials([string(credentialsId: 'ansible-inventory', variable: 'INVENTORY_FILE')]) {
             sh '''
-                echo "$INVENTORY_FILE" > inventory
+                echo "[webservers]" > inventory
+                echo "$INVENTORY_FILE" >> inventory
+                cat inventory  # Debugging step to check the file content in Jenkins logs
                 ansible-playbook -i inventory ansible-playbook.yml
             '''
         }
