@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'faiyazluck/springboot-app:latest'
         SERVER_USER = 'ubuntu'
-        SERVER_IP = 'your-ec2-instance-ip'
+        SERVER_IP = '13.203.25.224'
     }
 
     stages {
